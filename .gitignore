@@ -58,3 +58,4 @@ doc/
 # Python
 dist/
 build/
+*.egg-info/
