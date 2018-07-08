@@ -7,7 +7,7 @@ README = open(os.path.join(here, 'README.md')).read()
 NEWS = ""
 
 
-version = '0.0.1'
+version = '0.0.2'
 
 install_requires = [
     'requests'
@@ -19,21 +19,22 @@ setup(name='gpueater',
     description="GPUEater API console for python.",
     long_description=README + '\n\n' + NEWS,
     classifiers=(
-        "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
+        'Programming Language :: Python :: 2',
+        'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
     ),
     keywords='gpu gpueater deeplearning eater cloud',
     author='Pegara, Inc.',
     author_email='info@pegara.com',
     url='https://github.com/aieater/gpueater_python',
     license='MIT',
-    packages=find_packages('gpueater'),
-    package_dir = {'': 'gpueater'},include_package_data=True,
+    packages=['gpueater'],
     zip_safe=False,
     install_requires=install_requires,
-    entry_points={
-        'console_scripts':
-            ['gpueater=gpueater:main']
-    }
+    entry_points={}
 )

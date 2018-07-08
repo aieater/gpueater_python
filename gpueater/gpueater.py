@@ -42,10 +42,9 @@ G_HEADERS = {'User-Agent': 'PythonAPI'}
 try:
     G_HEADERS['cookie'] = open(G_COOKIE).read()
 except:
-    print(G_HEADERS)
+    pass
 
 def relogin():
-    print("relogin")
     res = requests.post(G_GPUEATER_URL+"/api_login",headers=G_HEADERS,data={'email':G_CONFIG['gpueater']['email'],'password':G_CONFIG['gpueater']['password']})
     j = json.loads(res.text)
     G_HEADERS['cookie'] = res.headers['set-cookie']
@@ -54,7 +53,6 @@ def relogin():
     return j
 
 def instance_list():
-    print('instance_list')
     res = requests.get(G_GPUEATER_URL+"/console/servers/instance_list",headers=G_HEADERS)
     j = None
     try:
@@ -65,7 +63,6 @@ def instance_list():
     return j
 
 def ssh_keys():
-    print('ssh_keys')
     res = requests.get(G_GPUEATER_URL+"/console/servers/ssh_keys",headers=G_HEADERS)
     j = None
     try:
@@ -76,7 +73,6 @@ def ssh_keys():
     return j
     
 def image_list():
-    print('image_list')
     res = requests.get(G_GPUEATER_URL+"/console/servers/images",headers=G_HEADERS)
     j = None
     try:
@@ -114,7 +110,6 @@ class ProductsResnpose:
         return None
         
 def ondemand_list():
-    print('ondemand_list')
     res = requests.get(G_GPUEATER_URL+"/console/servers/ondemand_launch_list",headers=G_HEADERS)
     j = None
     try:
@@ -126,7 +121,6 @@ def ondemand_list():
     return ProductsResnpose(j)
     
 def launch_ondemand_instance(form):
-    print('launch_ondemand_instance')
     if 'product_id' not in form:
         raise "product_id is required"
     if 'image' not in form:
@@ -144,8 +138,7 @@ def launch_ondemand_instance(form):
         j = launch_ondemand_instance(form)
     return j
     
-def terminate(form)
-    print('terminate')
+def terminate(form):
     if 'instance_id' not in form:
         raise "instance_id is required"
     if 'machine_resource_id' not in form:
