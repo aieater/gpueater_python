@@ -1,7 +1,7 @@
 # GPUEater API Console
 
 ## Getting Started
-GPUEater is a cloud computing service focusing on Machine Learning and Deep Learning. Now, AMD Radeon GPUs and NVIDIA Quadro GPUs are available. 
+GPUEater is a cloud computing service focusing on Machine Learning and Deep Learning. Now, AMD Radeon GPUs and NVIDIA Quadro GPUs are available.
 
 This document is intended to describe how to set up this API and how to control your instances through this API.
 
@@ -62,7 +62,7 @@ This API returns your registered ssh keys.
 ```
 import gpueater
 
-res = gpueater.ssh_keys()
+res = gpueater.ssh_key_list()
 print(res)
 ```
 
@@ -78,7 +78,7 @@ print(res)
 
 #### Instance launch
 
-Specify product, OS image, and ssh_key for instance launching. 
+Specify product, OS image, and ssh_key for instance launching.
 
 ```
 import gpueater
@@ -100,7 +100,7 @@ res = gpueater.launch_ondemand_instance(param)
 puts res
 ```
 In the event, the request has succeeded, then the API returns the following empty data.
-{data:null, error:null} 
+{data:null, error:null}
 
 In the event, errors occurred during the instance instantiation process, then the API returns details about the error.
 
@@ -124,6 +124,144 @@ for ins in res:
 	if ins['tag'] == 'HappyGPUProgramming':
 		print(gpueater.terminate_instance(e))
 ```
+
+
+
+-----
+
+
+#### API list
+
+##### Image
+|  Version  |  Function  | Required | Description  |
+| ---- | ---- | ---- | ---- |
+|  v0.8  |  image_list()  |  | Listing all OS images |
+|  v1.5  |  snapshot_instance(form)  | instance_id, machine_resource_id |  Creating a snapshot |
+|  v1.5  |  delete_snapshot(form)  | instance_id, machine_resource_id |  Deleting a snapshot |
+|  v1.5  |  create_image(form)  | instance_id, machine_resource_id |  Adding an OS image of snapshot |
+|  v2.0  |  register_image(form)  | url |  Registering an OS image of snapshot on the internet |
+|  v1.5  |  delete_image(form)  | image |  Deleting an OS image |
+
+
+##### SSH Key
+|  Version  |  Function  | Required | Description  |
+| ---- | ---- | ---- | ---- |
+|  v0.8  |  ssh_key_list()  |  |  Listing all ssh keys |
+|  v1.0  |  generate_ssh_key()  |  |  Generating Key Pair |
+|  v1.0  |  register_ssh_key(form)  | name, public_key |  Registering an SSH key |
+|  v1.0  |  delete_ssh_key(form)  | id |  Deleting an SSH key |
+
+```
+import gpueater
+import os
+
+
+ssh_key_name = "my_ssh_key2_for_python"
+
+keys = gpueater.ssh_key_list()
+for key in keys:
+    if key["name"] == ssh_key_name:
+        gpueater.delete_ssh_key(key)
+
+k = generate_ssh_key()
+print(gpueater.register_ssh_key({"name":ssh_key_name,"public_key":k["public_key"]}))
+
+HOMEDIR = os.path.expanduser("~")
+fp = open(os.path.join(HOMEDIR,".ssh",ssh_key_name+".pem"),"w")
+fp.write(k["private_key"])
+fp.close()
+print(gpueater.ssh_key_list())
+
+```
+
+##### Instance
+|  Version  |  Function  | Required | Description  |
+| ---- | ---- | ---- | ---- |
+|  v0.8  |  ondemand_list()  |  |  Listing all on-demand instances |
+|  v2.0  |  subscription_list()  |  |  Listing all subscription instances |
+|  v0.8  |  launch_ondemand_instance(form)  | product_id, image, ssh_key_id |  Launch an on-demand instance |
+|  v2.0  |  launch_subcription_instance(form)  | subscription_id, image, ssh_key_id |  Launch a subscription instance |
+|  v0.8  |  instance_list()  |  |  Listing all launched instances |
+|  v1.0  |  change_instance_tag(form)  | instance_id, tag |  Changing an instance tag |
+|  v1.0  |  start_instance(form)  | instance_id, machine_resource_id |  Starting an instance. If the instance is already RUNNING, nothing is going to happen |
+|  v1.0  |  stop_instance(form)  | instance_id, machine_resource_id |  Stopping an instance. If the instance is already STOPPED, nothing is going to happen |
+|  v1.0  |  restart_instance(form)  | instance_id, machine_resource_id |  Restarting an instance |
+|  v0.8  |  terminate_instance(form)  | instance_id, machine_resource_id |  Terminating an instance |
+|  v1.0  |  emergency_restart_instance(form)  | instance_id, machine_resource_id |  Restarting an instance emergently when an instance is hung up |
+
+The "machine_resource_id" is including an instance object.  See the following sample code.
+
+Example:
+```
+
+instance = g.instance_list()[0]
+# instance object has instance_id, and machine_resource_id.
+
+g.terminate_instance(instance)
+
+```
+
+##### Network
+|  Version  |  Function  | Required | Description  |
+| ---- | ---- | ---- | ---- |
+|  v1.0  |  port_list(form)  | instance_id |  Listing all ports |
+|  v1.0  |  open_port(form)  | instance_id, connection_id, port |  Opening a port for inbound traffic |
+|  v1.0  |  close_port(form)  | instance_id, connection_id, port |  Closing a port for inbound traffic |
+|  v1.0  |  renew_ipv4(form)  | instance_id |  Getting a new IPv4 address |
+|  v1.0  |  network_description(form)  | instance_id |  This API reports current network status information |
+
+##### Storage
+|  Version  |  Function  | Required | Description  |
+| ---- | ---- | ---- | ---- |
+|  v2.0  |  create_volume(form)  | size |  Creating an extended volume |
+|  v2.0  |  attach_volume(form)  | volume_id, instance_id |  Attaching an extended volume to an instance |
+|  v2.0  |  delete_volume(form)  | volume_id |  Deleting an extended volume |
+|  v2.0  |  transfer_volume(form)  | volume_id,region_id |  Transfering an extended volume to another region |
+
+##### Subscription
+|  Version  |  Function  | Required | Description  |
+| ---- | ---- | ---- | ---- |
+|  v2.0  |  subscription_instance_list()  |  |  Listing all items of subscription instance |
+|  v2.0  |  subscription_storage_list()  |  |  Listing all items of storages volume for subscription instance |
+|  v2.0  |  subscription_network_list()  |  |  Listing all items of subscription networks |
+|  v2.0  |  subscribe_instance(form)  | subscription_id |  Subscribing a subscription instance |
+|  v2.0  |  unsubscribe_instance(form)  | subscription_id |  Canceling a subscription instance |
+|  v2.0  |  subscribe_storage(form)  | subscription_id |  Subscribing a storage volume for subscription instance |
+|  v2.0  |  unsubscribe_storage(form)  | subscription_id |  Canceling a storage volume for subscription instance |
+|  v2.0  |  subscribe_network(form)  | subscription_id |  Subscribing a network product |
+|  v2.0  |  unsubscribe_network(form)  | subscription_id |  Canceling a network product |
+
+##### Special
+|  Version  |  Function  | Required | Description  |
+| ---- | ---- | ---- | ---- |
+|  v2.5  |  live_migration(form)  | product_id, region_id, connection_id |  Moving a running instance between different physical machines without termination |
+|  v2.5  |  cancel_transaction(form)  | transaction_id |  Canceling a transaction |
+|  v2.5  |  peak_transaction(form)  | transaction_id |  This API reports current status information of a transaction |
+
+##### Payment
+|  Version  |  Function  | Required | Description  |
+| ---- | ---- | ---- | ---- |
+|  v1.0  |  invoice_list()  |  |  Listing invoices for on-demand instances |
+|  v2.0  |  subscription_invoice_list()  |  |  Listing invoices for subscription instances |
+|  v1.5  |  make_invoice(form)  | invoice_id |  Obtain a pdf invoice |
+
+##### Extensions
+|  Version  |  Function  | Required | Description  |
+| ---- | ---- | ---- | ---- |
+|  v1.2  |  copy_file(form)  | action("get"or"put"), src, dst |  Copying a file. "get" obtains a file from a remote host to your local host, and "put" is the opposite. "src" is a source file path, and "dst" is a destination file path |
+|  v1.2  |  delete_file(form)  | src, recursive |  Deleting a remote file |
+|  v1.2  |  move_file(form)  | action("get"or"put"), src, dst |  Moving a file. "get" obtains a file from a remote host to your local host, and "put" is the opposite. "src" is a source file path, and "dst" is a destination file path |
+|  v1.2  |  make_directory(form)  | dst |  Making a directory in a remote host |
+|  v1.2  |  file_list(form)  | src |  Listing all files in a remote host |
+|  v1.2  |  synchronize_files(form)  | action, src, dst |  This API is similar to the "rsync" |
+|  v1.2  |  login_instance(form)  | instance_id | Logging in a specific instance through the SSH |
+|  v1.2  |  tunnel(form)  | instance_id, port |  This API enables a port tunneling between your local and a remote host |
+
+##### Class API
+|  Version  |  Function  | Required | Description  |
+| ---- | ---- | ---- | ---- |
+|  v1.2  |  api_list()  |  |  Listing all available APIs. |
+
 
 ## License
 
