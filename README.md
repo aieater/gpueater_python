@@ -1,4 +1,4 @@
-# GPUEater Console API
+# GPUEater API Console
 
 ## Getting Started
 GPUEater is a cloud computing service focusing on Machine Learning and Deep Learning. Now, AMD Radeon GPUs and NVIDIA Quadro GPUs are available. 
