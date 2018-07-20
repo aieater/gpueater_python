@@ -194,10 +194,10 @@ The "machine_resource_id" is including an instance object.  See the following sa
 Example:
 ```
 
-instance = g.instance_list()[0]
+instance = gpueater.instance_list()[0]
 # instance object has instance_id, and machine_resource_id.
 
-g.terminate_instance(instance)
+gpueater.terminate_instance(instance)
 
 ```
 
