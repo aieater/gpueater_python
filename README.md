@@ -138,8 +138,8 @@ for ins in res:
 |  v0.8  |  image_list()  |  | Listing all OS images |
 |  v1.5  |  snapshot_instance(form)  | instance_id, machine_resource_id |  Creating a snapshot |
 |  v1.5  |  delete_snapshot(form)  | instance_id, machine_resource_id |  Deleting a snapshot |
-|  v1.5  |  create_image(form)  | instance_id, machine_resource_id |  Adding an OS image of snapshot |
-|  v2.0  |  register_image(form)  | url |  Registering an OS image of snapshot on the internet |
+|  v1.5  |  create_image(form)  | instance_id, machine_resource_id |  Adding an user defined OS image |
+|  v2.0  |  register_image(form)  | url |  Registering an user defined OS image on the internet |
 |  v1.5  |  delete_image(form)  | image |  Deleting an OS image |
 
 
@@ -163,7 +163,7 @@ for key in keys:
     if key["name"] == ssh_key_name:
         gpueater.delete_ssh_key(key)
 
-k = generate_ssh_key()
+k = gpueater.generate_ssh_key()
 print(gpueater.register_ssh_key({"name":ssh_key_name,"public_key":k["public_key"]}))
 
 HOMEDIR = os.path.expanduser("~")
