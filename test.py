@@ -1,10 +1,4 @@
 import gpueater
 
-res = gpueater.instance_list()
+res = gpueater.registered_image_list()
 print(res)
-
-res = gpueater.ondemand_list()
-print(res)
-
-
-

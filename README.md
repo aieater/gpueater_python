@@ -97,7 +97,7 @@ param = {
 }
 
 res = gpueater.launch_ondemand_instance(param)
-puts res
+print(res)
 ```
 In the event, the request has succeeded, then the API returns the following empty data.
 {data:null, error:null}
@@ -122,7 +122,7 @@ import gpueater
 res = gpueater.instance_list()
 for ins in res:
 	if ins['tag'] == 'HappyGPUProgramming':
-		print(gpueater.terminate_instance(e))
+		print(gpueater.terminate_instance(ins))
 ```
 
 
