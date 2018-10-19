@@ -23,11 +23,11 @@ Unfortunately, AMD's official repository for ROCm sometimes includes old or miss
 - How to setup Radeon GPU Driver (ROCm) on Ubuntu16.04/18.04
 - How to setup ROCm-Tensorflow on Ubuntu16.04/18.04
   + ROCm(AMDGPU)-TensorFlow 1.8 Python2.7/Python3.5 + UbuntuOS
-  + ROCm(AMDGPU)-TensorFlow 1.10.0-x Python2.7/Python3.5/Python3.6 + UbuntuOS
+  + ROCm(AMDGPU)-TensorFlow 1.1x Python2.7/Python3.5/Python3.6 + UbuntuOS
   + CPU-TensorFlow 1.10.1 Python3.7 + MacOSX
 - Lightweight ROCm-TensorFlow docker
   + ROCm-TensorFlow on GPUEater
-  + ROCm-TensorFlow1.8 docker
+  + ROCm-TensorFlow1.11 docker
 
 ROCm information URL : https://github.com/aieater/rocm_tensorflow_info
 <br>
@@ -170,9 +170,9 @@ for ins in res:
 |  v1.7  |  snapshot_instance(form)  | instance_id, machine_resource_id |  Creating a snapshot |
 |  v1.7  |  delete_snapshot(form)  | instance_id, machine_resource_id |  Deleting a snapshot |
 |  v1.5  |  registered_image_list()  |  | Listing all user defined OS images |
-|  v1.5  |  create_image(form)  | instance_id, machine_resource_id |  Adding an user defined OS image |
-|  v2.0  |  import_image(form)  | url |  Registering an user defined OS image on the internet |
-|  v1.5  |  delete_image(form)  | image |  Deleting an OS image |
+|  v1.5  |  create_image(form)  | instance_id, image_name |  Adding an user defined OS image |
+|  v2.0  |  import_image(form)  | url, image_name |  Registering an user defined OS image on the internet |
+|  v1.5  |  delete_image(form)  | fingerprint |  Deleting an OS image |
 
 
 ##### SSH Key
