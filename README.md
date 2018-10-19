@@ -275,7 +275,7 @@ gpueater.terminate_instance(instance)
 | ---- | ---- | ---- | ---- |
 |  v1.0  |  invoice_list()  |  |  Listing invoices for on-demand instances |
 |  v2.0  |  subscription_invoice_list()  |  |  Listing invoices for subscription instances |
-|  v1.5  |  make_invoice(form)  | invoice_id |  Obtain a pdf invoice |
+|  v2.5  |  make_invoice(form)  | invoice_id |  Obtain a pdf invoice |
 
 ##### Extensions
 |  Version  |  Function  | Required | Description  |
